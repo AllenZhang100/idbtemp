@@ -21,7 +21,7 @@
 <!-- Player's Stat -->
   <div class = "container-fluid">
     <h1 style = "font-family: 'Overwatch'"><p class="text-info"><font size = "7">Stats</font></p></h1>
-    <p style = "font-family: 'Roboto Condensed'" class="text-warning"><font size = "5"><span style="color:orange; font-family: 'Overwatch'">Name: </span><span style="color:white; font-family: 'Overwatch'">{{data.name}}</span></font></p>
+    <p style = "font-family: 'Roboto Condensed'" class="text-warning"><font size = "5"><span style="color:orange; font-family: 'Overwatch'">Name: </span><span style="color:white; font-family: 'Overwatch'">{{data.hero_name}}</span></font></p>
 
     <p style = "font-family: 'Roboto Condensed'" class="text-warning"><font size = "5"><span style="color:orange; font-family: 'Overwatch'">Description:</span><br> <span style="color:white; font-family: 'Overwatch'">{{data.description}}</span></font></p>
 
@@ -29,11 +29,11 @@
 
     <p style = "font-family: 'Roboto Condensed'" class="text-warning"><font size = "5"><span style="color:orange; font-family: 'Overwatch'">Abilities: </span><span style="color:white; font-family: 'Overwatch'">{{data.abilities}}</span></font></p>
 
-    <p style = "font-family: 'Roboto Condensed'" class="text-warning"><font size = "5"><span style="color:orange; font-family: 'Overwatch'">Available Achievements:&nbsp; &nbsp;{% for item in data.achieve %}
+ <!--    <p style = "font-family: 'Roboto Condensed'" class="text-warning"><font size = "5"><span style="color:orange; font-family: 'Overwatch'">Available Achievements:&nbsp; &nbsp;{% for item in data.achieve %}
       <span style="color:white; font-family: 'Overwatch'"><a href = "../achievements/{{item.id}}"><img src="../../media/achievements/{{data.item_id}}" alt=" " width=50 height=50></a> {{item.name}} </span></font></p>
-      {% endfor %}
+      {% endfor %} -->
 
-	   <p style = "font-family: 'Roboto Condensed'" class="text-warning"><font size = "5"><span style="color:orange; font-family: 'Overwatch'">Available Skins: {% for item in data.skin %}</span><a href = "../skins/{data.item_id}"><span style="color:white; font-family: 'Overwatch'">{{item.name}}</a></font></span></p>{% endfor %}
+<!-- 	   <p style = "font-family: 'Roboto Condensed'" class="text-warning"><font size = "5"><span style="color:orange; font-family: 'Overwatch'">Available Skins: {% for item in data.skin %}</span><a href = "../skins/{data.item_id}"><span style="color:white; font-family: 'Overwatch'">{{item.name}}</a></font></span></p>{% endfor %} -->
   </div>
 
 <span style="color:orange"></span>

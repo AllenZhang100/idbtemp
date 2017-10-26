@@ -2,8 +2,10 @@ from flask import Flask, render_template, Blueprint, request, session, redirect,
 import models as models
 from models import *
 from sqlalchemy import or_, and_
+# import database as db
 
-flaskrouter = Blueprint(flaskrouter, __name__)
+
+flaskrouter = Blueprint("flaskrouter", __name__)
 
 @flaskrouter.route('/')
 def index():
@@ -42,7 +44,8 @@ def heroes():
     """
     The various playable heroes page
     """
-    data = models.Hero.query.order_by(models.Hero.name.asc()).all()
+    data = db.session.query(Hero).all()
+    output = data
     return render_template('heroes.html', data=data, output=output)
 
 
@@ -68,4 +71,5 @@ def skins():
     A page for in-game skins
     """
     return render_template('skins.html')
+
 

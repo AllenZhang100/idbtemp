@@ -3,36 +3,15 @@ from flask_sqlalchemy import SQLAlchemy
 
 
 
-# connect SQLAlchemy and PostgreSQL, use Flask-Migrate (???)
-
-app =Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgres://postgres:groupPassword@35.193.209.24/postgres'   #TThe URI needs to be edited
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-db = SQLAlchemy(app)
+db = SQLAlchemy()
 
 
-
-
-# Join Tables (???) for many to many relationships
-
-# hero_top_player = db.Table('hero_top_player',
-#     db.Column('hero_id',db.Integer, db.ForeignKey('heroes.hero_id')),
-#     db.Column('top_player_id', db.Integer, db.ForeignKey('top_players.top_player_id')))
 
 achievement_top_player = db.Table('achievement_top_player',
     db.Column('achievement_id',db.Integer, db.ForeignKey('achievements.achievement_id')),
     db.Column('top_player_id', db.Integer, db.ForeignKey('top_players.top_player_id')))
 
-# skin_topPlayer = db.Table('skin_topPlayer',
-#   db.Column('skin_id',db.Integer, db.ForeignKey('skins.SkinID')),
-#   db.Column('topPlayer_id', db.Integer, db.ForeignKey('topPlayers.TopPlayerID')))
 
-# hero_item = db.Table('hero_item',
-    # db.Column('hero_id',db.Integer, db.ForeignKey('heroes.hero_id')),
-    # db.Column('item_id', db.Integer, db.ForeignKey('items.item_id')))
-
-
-#build classes for each model
 
 class Hero(db.Model):
 

@@ -1,19 +1,14 @@
-import urllib.request
+from six.moves import urllib
 import json
 import ssl
 import time
 from flask import Flask
-from flask_sqlalchemy import SQLAlchemy
-from models import db, Hero, TopPlayer, Achievement, Event, Skin, Item
-import psycopg2
+#from flask_sqlalchemy import SQLAlchemy
+from models import db, Heroes, TopPlayers, Achievements, Events, Skins, Items
 
 
 baseurl = 'https://overwatch-api.net/api/v1'
 context = ssl._create_unverified_context()
-
-db.reflect()
-db.drop_all()
-db.create_all()
 
 def scrapeHeroes():
 #24 heroes
@@ -27,66 +22,48 @@ def scrapeHeroes():
 		Hero_id = data['id']
 		name = data['name']
 		description = data['description']
-		role_name = data['role']['name']
-		abilities_list = data['abilities']
 
+		abilities_list = data['abilties']
 
-		b = False
+		b = false
 
 		name_str = ''
 		ulti = ''
-		for i in abilities_list:
+		for i in abilties_list:
 			if i['is_ultimate']:
 				ulti = i['name']
 			else:
 				if not b:
 					name_str += i['name'] 
-					b = True
+					b = true
 				else:
 					name_str += ', '
-					name_str += i['name']
-
-		# print(str(Hero_id) + " " + name + "\n" + description + "\n"+ name_str + "\n"+ ulti ) 
-		hero = Hero(Hero_id, name, description, role_name, name_str, ulti)
-		db.session.add(hero)
-		db.session.commit()
+					name_str += i['name'] 
+		
 
 
 
 		#Need to insert these into the Database
+		
+
+
+#def getPlay  erInfo():
+
+	#all the url, info to create each json
 
 def scrapeAchievements():
 
-	for h in range(1, 74):
+	for h in range(1, 75):
 		tempurl = baseurl + '/achievement/' + str(h)
 		req = urllib.request.Request(tempurl, headers={'User-Agent': 'Mozilla/5.0'})
-		try:
-			thejson = urllib.request.urlopen(req, context=context)
-		except:
-			pass
-		else:
-			data_bytes = thejson.read().decode('utf-8')
-			data = json.loads(data_bytes)
+		thejson = urllib.request.urlopen(req, context=context)
+		data_bytes = thejson.read().decode('utf-8')
+		data = json.loads(data_bytes)
 
-			achievement_id = data['id']
-			name = data['name']
-			description = data['description']
-			reward = data['reward']['name']
-			reward_type = data['reward']['type']['name']
-			reward_quality = data['reward']['quality']['name']
-
-			f_key = None
-			if(data['hero'] is not None):
-				f_key = data['hero']['id']
-
-
-		# 
+		name = data['name']
+		description = data['description']
 
 	#all the url, info to create each json
-		# print(str(achievement_id) + " "+ name + "\n"+ description)
-			achieve = Achievement(achievement_id, name, description, reward, reward_type, reward_quality,f_key)
-			db.session.add(achieve)
-			db.session.commit()
 
 def scrapeEvents():
 
@@ -97,20 +74,15 @@ def scrapeEvents():
 		data_bytes = thejson.read().decode('utf-8')
 		data = json.loads(data_bytes)
 
-		
 		name = data['name']
 		start = data['start_date']
 		end = data['end_date']
-
-		event = Event(h, name, start, end)
-		db.session.add(event)
-		db.session.commit()
 
 	#all the url, info to create each json
 
 def scrapeSkinsItems():
 
-	for h in range(1, 100):
+	for h in range(1, 1887):
 		tempurl = baseurl + '/reward/' + str(h)
 
 		req = urllib.request.Request(tempurl, headers={'User-Agent': 'Mozilla/5.0'})
@@ -119,35 +91,10 @@ def scrapeSkinsItems():
 		data = json.loads(data_bytes)
 
 		reward_type = data['type']['name']
-		hero_id = None
-		if data['hero'] is not None:
-			hero_id = data['hero']['id']
-
-		event_id = None
-		if data['event'] is not None:
-			event_id = data['event']['id']
-
 		if  reward_type == 'skin':
-			skin_name = data['name']
-			if data ['cost'] != None:
-				skin_cost = data['cost']['value'] + " credits"
-			else:
-				skin_cost = None
-			quality = data['quality']['name']
-
-			skin = Skin(h, skin_name, skin_cost, quality, hero_id, event_id)
-			db.session.add(skin)
-			db.session.commit()
+			skin = reward_type
 		else:
-			if reward_type == 'spray' or reward_type == 'player icon':
-				item = reward_type
-				item_name = data['name']
-				item_type = data['type']['name']
-				item = Item(h, item_name, item_type, hero_id, event_id)
-				db.session.add(item)
-				db.session.commit()
-
-
+			item = reward_type
 
 
 
@@ -167,10 +114,7 @@ def scrapeTopPlayers():
 		level = data['us']['stats']['competitive']['overall_stats']['level']
 		skill_rank = data['us']['stats']['competitive']['overall_stats']['comprank']
 
-		topPlayer = TopPlayer(h, name, win_rate, tier, level, skill_rank )
-
-		db.session.add(topPlayer)
-		db.session.commit()
+		# print(name)
 		# print(win_rate)
 		# print(tier)
 		# print(level)
@@ -184,10 +128,10 @@ def scrapeTopPlayers():
 
 
 def main():
-	scrapeHeroes()
-	scrapeAchievements()
-	scrapeEvents()
-	scrapeSkinsItems()
-	# scrapeTopPlayers()
+	#scrapeHeroes()
+	#scrapeAchievements()
+	#scrapeEvents()
+	#scrapeSkinsItems()
+	scrapeTopPlayers()
 
 if __name__ == "__main__": main()

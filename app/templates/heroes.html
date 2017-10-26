@@ -17,10 +17,10 @@
     <div class="row">
       {% for item in output %}
       <div class="col-lg-4 col-sm-6 text-center mb-4">
-        <a href = "subpages/heroes/{{item.id}}">
+        <a href = "/heroes/{{item.hero_id}}">
         <img class="img-thumbnail" src="{{item.url}}" alt="" width="250" height="250">
         </a>
-         <h3 style="font-family: 'Overwatch'" class="text-warning"><font size = "6">{{item.name}}</font></h3>
+         <h3 style="font-family: 'Overwatch'" class="text-warning"><font size = "6">{{item.hero_name}}</font></h3>
       </div>
       {% endfor %}
     </div>    
